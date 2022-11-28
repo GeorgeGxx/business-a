@@ -1,54 +1,37 @@
 services:
-  microservicios-mysql8:
-    container_name: microservicios-mysql8
-    #    build:
-    #      context: ../mysql8/
-    #      dockerfile: Dockerfile
-    image: mysql:8
+  microservicios-postgres14:
+    container_name: microservicios-postgres14
+    image: postgres:14-alpine
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      MYSQL_DATABASE: db_springboot_cloud
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DB: db_springboot_cloud
+      POSTGRES_PASSWORD: root
     volumes:
-      - data-mysql:/var/lib/mysql
+      - data-postgres:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       - springcloud
-    ### Después de subir el contenedor de mysql8 ejecutas lo siguiente para crear la db y el usuario de zipkin:
-    ### sudo chmod +x /business-a/zipkin-mysql/zipkin.sh
-    ### sudo ./zipkin.sh
 
   servicio-productos:
     container_name: servicio-productos
-#    build:
-#      context: ./springboot-servicio-productos/
-#      dockerfile: Dockerfile
-#    image: servicio-productos:v1
     image: georgegxx/servicio-productos:latest
     environment:
-      DB_HOST: microservicios-mysql8:3306
+      DB_HOST: microservicios-postgres14:5432
       DB_DATABASE: db_springboot_cloud
-      DB_USERNAME: root
+      DB_USERNAME: postgres
       DB_PASSWORD: root
       # Usar la DNS de tu instancia EC2 de AWS
       CONFIG_SERVER_URL: ec2-44-200-117-39.compute-1.amazonaws.com:8888
       EUREKA_SERVER_URL: ec2-44-200-117-39.compute-1.amazonaws.com:8761
-      #ZUUL_SERVER_URL: ec2-100-26-165-125.compute-1.amazonaws.com:8765
     networks:
       - springcloud
     depends_on:
-      #- config-server
-      #- servicio-eureka-server
-      - microservicios-mysql8
+      - microservicios-postgres14
     restart: unless-stopped
 
   servicio-items:
     container_name: servicio-items
-#    build:
-#      context: ./springboot-servicio-item/
-#      dockerfile: Dockerfile
-#    image: servicio-items:v1
     image: georgegxx/servicio-items:latest
     ports:
       - "8002:8002"
@@ -57,13 +40,11 @@ services:
     networks:
       - springcloud
     depends_on:
-      #- config-server
-      #- servicio-eureka-server
       - servicio-productos
     restart: unless-stopped
 
 volumes:
-  data-mysql:
+  data-postgres:
 
 networks:
   springcloud:
