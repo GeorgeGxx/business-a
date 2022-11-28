@@ -60,38 +60,6 @@ services:
       - servicio-productos
     restart: unless-stopped
 
-  microservicios-rabbitmq39:
-    container_name: microservicios-rabbitmq39
-    image: rabbitmq:3.9-management-alpine
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    restart: unless-stopped
-    networks:
-      - springcloud
-
-  zipkin-server:
-    container_name: zipkin-server
-    build:
-      context: ./zipkin-server/
-      dockerfile: Dockerfile
-    image: zipkin-server:v1
-    ports:
-      - "9411:9411"
-    restart: unless-stopped
-    networks:
-      - springcloud
-    depends_on:
-      - microservicios-rabbitmq39
-      - microservicios-mysql8
-    environment:
-      PORT: 9411
-      RABBIT_ADDRESSES: microservicios-rabbitmq39:5672
-      STORAGE_TYPE: mysql
-      MYSQL_USER: zipkin
-      MYSQL_PASS: zipkin
-      MYSQL_HOST: microservicios-mysql8
-
 volumes:
   data-mysql:
 
