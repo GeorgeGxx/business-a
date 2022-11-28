@@ -37,8 +37,8 @@ services:
     networks:
       - springcloud
     depends_on:
-      - config-server
-      - servicio-eureka-server
+      #- config-server
+      #- servicio-eureka-server
       - microservicios-mysql8
     restart: unless-stopped
 
@@ -55,8 +55,8 @@ services:
     networks:
       - springcloud
     depends_on:
-      - config-server
-      - servicio-eureka-server
+      #- config-server
+      #- servicio-eureka-server
       - servicio-productos
     restart: unless-stopped
 
@@ -85,6 +85,7 @@ services:
       - microservicios-rabbitmq39
       - microservicios-mysql8
     environment:
+      PORT: 9411
       RABBIT_ADDRESSES: microservicios-rabbitmq39:5672
       STORAGE_TYPE: mysql
       MYSQL_USER: zipkin
