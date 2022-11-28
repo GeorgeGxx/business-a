@@ -21,10 +21,11 @@ services:
 
   servicio-productos:
     container_name: servicio-productos
-    build:
-      context: ./springboot-servicio-productos/
-      dockerfile: Dockerfile
-    image: servicio-productos:v1
+#    build:
+#      context: ./springboot-servicio-productos/
+#      dockerfile: Dockerfile
+#    image: servicio-productos:v1
+    image: georgegxx/servicio-productos:latest
     environment:
       DB_HOST: microservicios-mysql8:3306
       DB_DATABASE: db_springboot_cloud
@@ -44,10 +45,11 @@ services:
 
   servicio-items:
     container_name: servicio-items
-    build:
-      context: ./springboot-servicio-item/
-      dockerfile: Dockerfile
-    image: servicio-items:v1
+#    build:
+#      context: ./springboot-servicio-item/
+#      dockerfile: Dockerfile
+#    image: servicio-items:v1
+    image: georgegxx/servicio-items:latest
     ports:
       - "8002:8002"
       - "8005:8005"
