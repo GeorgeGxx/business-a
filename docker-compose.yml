@@ -22,7 +22,7 @@ services:
   servicio-productos:
     container_name: servicio-productos
     build:
-      context: ../springboot-servicio-productos/
+      context: ./springboot-servicio-productos/
       dockerfile: Dockerfile
     image: servicio-productos:v1
     environment:
@@ -45,7 +45,7 @@ services:
   servicio-items:
     container_name: servicio-items
     build:
-      context: ../springboot-servicio-item/
+      context: ./springboot-servicio-item/
       dockerfile: Dockerfile
     image: servicio-items:v1
     ports:
@@ -73,7 +73,7 @@ services:
   zipkin-server:
     container_name: zipkin-server
     build:
-      context: ../zipkin-server/
+      context: ./zipkin-server/
       dockerfile: Dockerfile
     image: zipkin-server:v1
     ports:
