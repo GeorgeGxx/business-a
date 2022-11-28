@@ -33,6 +33,9 @@ services:
   servicio-items:
     container_name: servicio-items
     image: georgegxx/servicio-items:latest
+    environment:
+      CONFIG_SERVER_URL: ec2-54-160-156-149.compute-1.amazonaws.com:8888
+      EUREKA_SERVER_URL: ec2-54-160-156-149.compute-1.amazonaws.com:8761
     ports:
       - "8002:8002"
       - "8005:8005"
